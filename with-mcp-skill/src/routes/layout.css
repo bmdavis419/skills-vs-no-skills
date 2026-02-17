@@ -1,2 +1,6 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+	--color-primary: #7c3aed;
+}

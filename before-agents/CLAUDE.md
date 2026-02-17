@@ -59,3 +59,7 @@ class MyError extends TaggedError('MyError')<{ message: string; cause?: unknown 
 - use functional programming patterns
 - avoid explicit return types unless necessary
 - use modern svelte syntax/features
+
+## Primary color
+
+The primary accent color for this project is `#6b7280` (slate gray). Use it as the main accent for buttons, links, highlights, and other interactive UI elements.
