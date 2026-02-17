@@ -25,30 +25,34 @@ After making changes, run `bun run format`, `bun run check`, and `bun run lint` 
 Async operations return `Result<T, E>` instead of throwing. Custom errors use `TaggedError`.
 
 **Creating results:**
+
 ```ts
-Result.ok(value)
-Result.err(new MyError({ message: '...' }))
-Result.tryPromise(() => fetch(url))        // wraps promise rejections
+Result.ok(value);
+Result.err(new MyError({ message: '...' }));
+Result.tryPromise(() => fetch(url)); // wraps promise rejections
 ```
 
 **Chaining async operations** — use `Result.gen` with `yield*` to short-circuit on errors. The generator body must return `Result.ok(...)` or `Result.err(...)`. Call `.mapError` on the awaited result to normalize error types:
+
 ```ts
 const result = await Result.gen(async function* () {
-  const res = yield* Result.await(Result.tryPromise(() => fetch(url)));
-  const data = yield* Result.await(Result.tryPromise(() => res.json()));
-  return Result.ok(data);
+	const res = yield* Result.await(Result.tryPromise(() => fetch(url)));
+	const data = yield* Result.await(Result.tryPromise(() => res.json()));
+	return Result.ok(data);
 });
 return result.mapError((e) => new MyError({ message: 'failed', cause: e }));
 ```
 
 **Consuming results:**
+
 ```ts
-result.match({ ok: (val) => val, err: (e) => fallback })
-result.unwrapOr(defaultValue)
-result.unwrap()   // throws on Err
+result.match({ ok: (val) => val, err: (e) => fallback });
+result.unwrapOr(defaultValue);
+result.unwrap(); // throws on Err
 ```
 
 **Tagged errors:**
+
 ```ts
 class MyError extends TaggedError('MyError')<{ message: string; cause?: unknown }>() {}
 // discriminate with e._tag === 'MyError'
